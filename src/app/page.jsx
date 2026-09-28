@@ -1,5 +1,6 @@
 import FeaturesSection from "@/Components/Shared/FeatureSection";
 import HeroSection from "@/Components/Shared/HeroSection";
+import WhyChooseUs from "@/Components/Shared/WhyChooseUs";
 import Image from "next/image";
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
     <div>
       <HeroSection />
       <FeaturesSection />
+      <WhyChooseUs />
     </div>
   );
 }
