@@ -21,6 +21,7 @@ import { BsPatchQuestionFill } from "react-icons/bs";
 import { Bars, Moon, Sun } from "@gravity-ui/icons";
 import { Ellipsis } from "lucide-react";
 import { HiMenuAlt2 } from "react-icons/hi";
+import { TbLogin2 } from "react-icons/tb";
 
 const Navbar = () => {
   const icons = {
@@ -197,8 +198,9 @@ const Navbar = () => {
           <Separator orientation="vertical" />
           <Link
             href="/login"
-            className="hidden text-sm font-semibold text-gray-700 transition hover:text-green-900 sm:block"
+            className="text-sm font-semibold text-gray-700 transition hover:text-green-900 flex items-center gap-1 underline underline-offset-2 "
           >
+            <TbLogin2 />
             Login
           </Link>
 
