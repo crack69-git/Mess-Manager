@@ -5,8 +5,22 @@ import {
   Clock,
   Envelope,
   LocationArrowFill,
+  FloppyDisk,
 } from "@gravity-ui/icons";
-import { Input, TextArea, Button } from "@heroui/react";
+
+import {
+  Button,
+  Description,
+  FieldError,
+  FieldGroup,
+  Fieldset,
+  Form,
+  Input,
+  Label,
+  TextArea,
+  TextField,
+} from "@heroui/react";
+
 import { Phone } from "lucide-react";
 
 const contactInfo = [
@@ -37,6 +51,14 @@ const contactInfo = [
 ];
 
 export default function ContactSection() {
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    console.log("Form Data:", data);
+  };
+
   return (
     <section className="relative overflow-hidden bg-white px-5 py-24 sm:px-8 lg:px-12">
       {/* Background decoration */}
@@ -83,77 +105,141 @@ export default function ContactSection() {
                 </p>
               </div>
 
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                {/* Name + Email */}
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <Input
-                    label="Your Name"
-                    placeholder="Enter your name"
-                    variant="bordered"
-                    radius="lg"
-                    className={{
-                      label: "text-sm font-semibold text-gray-700",
-                      input: "text-sm text-gray-900",
-                      inputWrapper:
-                        "border-gray-200 bg-gray-50 hover:border-green-300 focus-within:border-green-600",
-                    }}
-                  />
+              {/* ================= HEROUI FORM ================= */}
 
-                  <Input
-                    type="email"
-                    label="Email Address"
-                    placeholder="you@example.com"
-                    variant="bordered"
-                    radius="lg"
-                    className={{
-                      label: "text-sm font-semibold text-gray-700",
-                      input: "text-sm text-gray-900",
-                      inputWrapper:
-                        "border-gray-200 bg-gray-50 hover:border-green-300 focus-within:border-green-600",
-                    }}
-                  />
-                </div>
+              <Form className="w-full" onSubmit={onSubmit}>
+                <Fieldset className="w-full">
+                  <Fieldset.Legend className="sr-only">
+                    Contact Form
+                  </Fieldset.Legend>
 
-                {/* Subject */}
-                <Input
-                  label="Subject"
-                  placeholder="How can we help?"
-                  variant="bordered"
-                  radius="lg"
-                  className={{
-                    label: "text-sm font-semibold text-gray-700",
-                    input: "text-sm text-gray-900",
-                    inputWrapper:
-                      "border-gray-200 bg-gray-50 hover:border-green-300 focus-within:border-green-600",
-                  }}
-                />
+                  <Description className="sr-only">
+                    Send a message to the Mess Manager support team.
+                  </Description>
 
-                {/* Message */}
-                <TextArea
-                  label="Message"
-                  placeholder="Tell us a little about your question..."
-                  variant="bordered"
-                  radius="lg"
-                  rows={6}
-                  className={{
-                    label: "text-sm font-semibold text-gray-700",
-                    input: "text-sm text-gray-900",
-                    inputWrapper:
-                      "border-gray-200 bg-gray-50 hover:border-green-300 focus-within:border-green-600",
-                  }}
-                />
+                  <FieldGroup className="w-full">
+                    {/* ================= NAME + EMAIL ================= */}
 
-                {/* Submit */}
-                <Button
-                  type="submit"
-                  radius="lg"
-                  size="lg"
-                  className="w-full bg-green-900 font-semibold text-white shadow-sm transition-all hover:bg-green-800 sm:w-auto"
-                  endContent={<ArrowUpRight />}
-                >
-                  Send Message
-                </Button>
-              </form>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      {/* Name */}
+                      <TextField
+                        isRequired
+                        name="name"
+                        validate={(value) => {
+                          if (value.length < 3) {
+                            return "Name must be at least 3 characters";
+                          }
+
+                          return null;
+                        }}
+                      >
+                        <Label className="text-sm font-semibold text-gray-700">
+                          Your Name
+                        </Label>
+
+                        <Input
+                          placeholder="John Doe"
+                          className="text-sm text-gray-900"
+                        />
+
+                        <FieldError />
+                      </TextField>
+
+                      {/* Email */}
+                      <TextField isRequired name="email" type="email">
+                        <Label className="text-sm font-semibold text-gray-700">
+                          Email Address
+                        </Label>
+
+                        <Input
+                          placeholder="john@example.com"
+                          className="text-sm text-gray-900"
+                        />
+
+                        <FieldError />
+                      </TextField>
+                    </div>
+
+                    {/* ================= SUBJECT ================= */}
+
+                    <TextField
+                      isRequired
+                      name="subject"
+                      validate={(value) => {
+                        if (value.length < 3) {
+                          return "Subject must be at least 3 characters";
+                        }
+
+                        return null;
+                      }}
+                    >
+                      <Label className="text-sm font-semibold text-gray-700">
+                        Subject
+                      </Label>
+
+                      <Input
+                        placeholder="How can we help?"
+                        className="text-sm text-gray-900"
+                      />
+
+                      <FieldError />
+                    </TextField>
+
+                    {/* ================= MESSAGE ================= */}
+
+                    <TextField
+                      isRequired
+                      name="message"
+                      validate={(value) => {
+                        if (value.length < 10) {
+                          return "Message must be at least 10 characters";
+                        }
+
+                        return null;
+                      }}
+                    >
+                      <Label className="text-sm font-semibold text-gray-700">
+                        Message
+                      </Label>
+
+                      <TextArea
+                        placeholder="Tell us a little about your question..."
+                        className="text-sm text-gray-900"
+                        rows={6}
+                      />
+
+                      <Description className="text-xs text-gray-400">
+                        Minimum 10 characters
+                      </Description>
+
+                      <FieldError />
+                    </TextField>
+                  </FieldGroup>
+
+                  {/* ================= ACTIONS ================= */}
+
+                  <Fieldset.Actions className="mt-6">
+                    <Button
+                      type="submit"
+                      radius="lg"
+                      size="lg"
+                      className="bg-green-900 font-semibold text-white shadow-sm transition-all hover:bg-green-800"
+                    >
+                      <FloppyDisk />
+                      Send Message
+                    </Button>
+
+                    <Button
+                      type="reset"
+                      variant="secondary"
+                      radius="lg"
+                      size="lg"
+                    >
+                      Cancel
+                    </Button>
+                  </Fieldset.Actions>
+                </Fieldset>
+              </Form>
             </div>
           </div>
 
