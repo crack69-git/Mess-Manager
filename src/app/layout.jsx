@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Mess Manager",
+  title: "Mess Buddy - Home",
   description: "Simplifying Mess Management for a Seamless Experience",
   icons: {
     icon: "/LOGO.png",

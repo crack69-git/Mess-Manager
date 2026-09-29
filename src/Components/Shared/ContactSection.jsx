@@ -88,11 +88,10 @@ export default function ContactSection() {
                 <div className="grid gap-5 sm:grid-cols-2">
                   <Input
                     label="Your Name"
-                    labelPlacement="outside"
                     placeholder="Enter your name"
                     variant="bordered"
                     radius="lg"
-                    classNames={{
+                    className={{
                       label: "text-sm font-semibold text-gray-700",
                       input: "text-sm text-gray-900",
                       inputWrapper:
@@ -103,11 +102,10 @@ export default function ContactSection() {
                   <Input
                     type="email"
                     label="Email Address"
-                    labelPlacement="outside"
                     placeholder="you@example.com"
                     variant="bordered"
                     radius="lg"
-                    classNames={{
+                    className={{
                       label: "text-sm font-semibold text-gray-700",
                       input: "text-sm text-gray-900",
                       inputWrapper:
@@ -119,11 +117,10 @@ export default function ContactSection() {
                 {/* Subject */}
                 <Input
                   label="Subject"
-                  labelPlacement="outside"
                   placeholder="How can we help?"
                   variant="bordered"
                   radius="lg"
-                  classNames={{
+                  className={{
                     label: "text-sm font-semibold text-gray-700",
                     input: "text-sm text-gray-900",
                     inputWrapper:
@@ -134,12 +131,11 @@ export default function ContactSection() {
                 {/* Message */}
                 <TextArea
                   label="Message"
-                  labelPlacement="outside"
                   placeholder="Tell us a little about your question..."
                   variant="bordered"
                   radius="lg"
-                  minRows={6}
-                  classNames={{
+                  rows={6}
+                  className={{
                     label: "text-sm font-semibold text-gray-700",
                     input: "text-sm text-gray-900",
                     inputWrapper:

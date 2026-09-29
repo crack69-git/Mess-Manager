@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, ChevronUp, Envelope } from "@gravity-ui/icons";
@@ -72,7 +73,7 @@ export default function Footer() {
               </div>
 
               <span className="text-xl font-bold tracking-[-0.04em] text-gray-900">
-                Mess<span className="text-green-700">Manager</span>
+                Mess<span className="text-green-700">Buddy</span>
               </span>
             </Link>
 
@@ -151,12 +152,12 @@ export default function Footer() {
             </span>
 
             <button
-              //   onClick={() =>
-              //     window.scrollTo({
-              //       top: 0,
-              //       behavior: "smooth",
-              //     })
-              //   }
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                })
+              }
               className="group flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-gray-500 transition-all hover:border-green-200 hover:text-green-700"
             >
               Back to top

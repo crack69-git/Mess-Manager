@@ -11,7 +11,7 @@ const Navbar = () => {
           <div className="relative h-9 w-9 overflow-hidden rounded-xl">
             <Image
               src="/logo1.png"
-              alt="Mess Manager"
+              alt="Mess Buddy"
               fill
               priority
               className="object-cover"
@@ -20,7 +20,7 @@ const Navbar = () => {
 
           <div className="hidden sm:block">
             <h1 className="text-lg font-bold tracking-tight text-gray-900">
-              Mess Manager
+              Mess Buddy
             </h1>
             <p className="text-[10px] font-medium tracking-wide text-gray-500">
               SIMPLE • SMART • ORGANIZED

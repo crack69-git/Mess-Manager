@@ -20,10 +20,11 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { BiPlayCircle } from "react-icons/bi";
+import StatsSection from "./StatSection";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[calc(100vh-72px)] overflow-hidden bg-white px-4 py-16 sm:px-6 lg:px-8">
+    <section className="relative min-h-[calc(100vh-172px)] overflow-hidden bg-white px-4 py-16 sm:px-6 lg:px-8">
       {/* Background blobs */}
       <div className="pointer-events-none absolute left-[-180px] top-32 h-[430px] w-[430px] rounded-full bg-green-50 blur-3xl" />
       <div className="pointer-events-none absolute right-[-180px] top-40 h-[500px] w-[500px] rounded-full bg-green-50 blur-3xl" />
@@ -109,6 +110,9 @@ const HeroSection = () => {
           <div className="mt-7 flex items-center gap-2 text-sm text-gray-400">
             <CheckCircle2 size={16} className="text-green-700" />
             No credit card required
+          </div>
+          <div>
+            <StatsSection />
           </div>
         </div>
 
