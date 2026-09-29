@@ -138,7 +138,7 @@ const Navbar = () => {
           </Link>
 
           <Link
-            href="/features"
+            href="#features"
             className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-green-900 flex items-center gap-1"
           >
             <MdOutlineFeaturedPlayList />
@@ -146,7 +146,7 @@ const Navbar = () => {
           </Link>
 
           <Link
-            href="/why-us"
+            href="#why-us"
             className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-green-900 flex items-center gap-1"
           >
             <BsPatchQuestionFill />
@@ -154,7 +154,7 @@ const Navbar = () => {
           </Link>
 
           <Link
-            href="/testimonials"
+            href="#testimonials"
             className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-green-900 flex items-center gap-1"
           >
             <MdEmojiFlags />
@@ -162,7 +162,7 @@ const Navbar = () => {
           </Link>
 
           <Link
-            href="/contact"
+            href="#contact"
             className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-green-900 flex items-center gap-1"
           >
             <MdOutlineCall />

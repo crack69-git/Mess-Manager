@@ -60,7 +60,10 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-white px-5 py-24 sm:px-8 lg:px-12">
+    <section
+      id="contact"
+      className="relative overflow-hidden bg-white px-5 py-24 sm:px-8 lg:px-12"
+    >
       {/* Background decoration */}
       <div className="pointer-events-none absolute -left-40 top-20 h-[400px] w-[400px] rounded-full bg-green-50 blur-3xl" />
 
