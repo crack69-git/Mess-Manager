@@ -11,7 +11,7 @@ import {
   Separator,
   Switch,
 } from "@heroui/react";
-import { FaHome } from "react-icons/fa";
+import { FaGlobeAmericas, FaHome } from "react-icons/fa";
 import {
   MdEmojiFlags,
   MdOutlineCall,
@@ -209,7 +209,8 @@ const Navbar = () => {
             radius="lg"
             className="bg-green-900 px-5 font-semibold text-white shadow-sm transition-all hover:bg-green-800 hover:shadow-md rounded-lg"
           >
-            Get Started
+            <FaGlobeAmericas />
+            Developer
           </Button>
         </div>
       </nav>
