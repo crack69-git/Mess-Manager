@@ -22,15 +22,9 @@ import { Bars, Moon, Sun } from "@gravity-ui/icons";
 import { Ellipsis } from "lucide-react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { TbLogin2 } from "react-icons/tb";
+import DataThemeSection from "../data-theme/dataTheme";
 
 const Navbar = () => {
-  const icons = {
-    darkMode: {
-      off: Moon,
-      on: Sun,
-      selectedControlClass: "",
-    },
-  };
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200/80 bg-white/90 backdrop-blur-md">
       <nav className="mx-auto flex h-18 w-full max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
@@ -172,29 +166,7 @@ const Navbar = () => {
 
         {/* CTA */}
         <div className="flex items-center gap-3">
-          <div className="flex gap-3">
-            {Object.entries(icons).map(([key, value]) => (
-              <Switch key={key} defaultSelected aria-label={key} size="lg">
-                {({ isSelected }) => (
-                  <Switch.Content>
-                    <Switch.Control
-                      className={isSelected ? value.selectedControlClass : ""}
-                    >
-                      <Switch.Thumb>
-                        <Switch.Icon>
-                          {isSelected ? (
-                            <value.on className="size-3 text-inherit opacity-100" />
-                          ) : (
-                            <value.off className="size-3 text-inherit opacity-70" />
-                          )}
-                        </Switch.Icon>
-                      </Switch.Thumb>
-                    </Switch.Control>
-                  </Switch.Content>
-                )}
-              </Switch>
-            ))}
-          </div>
+          <DataThemeSection />
           <Separator orientation="vertical" />
           <Link
             href="/login"

@@ -12,20 +12,31 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const onSubmit = (e) => {
+  const router = useRouter();
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const data = {};
-
-    formData.forEach((value, key) => {
-      data[key] = value.toString();
+    const data = Object.fromEntries(formData.entries());
+    console.log("Form data:", data);
+    const { data: res, error } = await authClient.signIn.email({
+      email: data.email,
+      password: data.password,
+      rememberMe: true,
+      callbackURL: "/",
     });
-
-    console.log("Login Data:", data);
-    alert(`Login submitted for ${data.email}`);
+    if (res) {
+      alert("Signed in successfully! ");
+      router.push("/");
+    }
+    if (error) {
+      alert("Error signing in: " + error.message);
+      return;
+    }
   };
 
   return (
@@ -128,27 +139,7 @@ export default function LoginPage() {
               </TextField>
 
               {/* Password */}
-              <TextField
-                isRequired
-                minLength={8}
-                name="password"
-                type="password"
-                validate={(value) => {
-                  if (value.length < 8) {
-                    return "Password must be at least 8 characters";
-                  }
-
-                  if (!/[A-Z]/.test(value)) {
-                    return "Password must contain at least one uppercase letter";
-                  }
-
-                  if (!/[0-9]/.test(value)) {
-                    return "Password must contain at least one number";
-                  }
-
-                  return null;
-                }}
-              >
+              <TextField isRequired name="password" type="password">
                 <Label className="text-sm font-semibold text-gray-700">
                   Password
                 </Label>
@@ -157,10 +148,6 @@ export default function LoginPage() {
                   placeholder="Enter your password"
                   className="text-sm text-gray-900"
                 />
-
-                <Description className="text-xs text-gray-400">
-                  At least 8 characters, 1 uppercase letter and 1 number
-                </Description>
 
                 <FieldError />
               </TextField>
