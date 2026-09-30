@@ -1,3 +1,4 @@
+"use client";
 import { Moon, Sun } from "@gravity-ui/icons";
 import { Switch } from "@heroui/react";
 import React from "react";
