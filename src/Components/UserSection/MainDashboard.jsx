@@ -141,7 +141,7 @@ export default function MainDashboard() {
                   href="/dashboard/expenses"
                   className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
                 >
-                  Add Expense
+                  Join Mess
                 </Link>
               </div>
             </div>

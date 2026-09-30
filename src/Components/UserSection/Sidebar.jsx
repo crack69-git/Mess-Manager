@@ -10,14 +10,20 @@ import {
   Receipt,
   ShoppingBag,
   Calendar,
+  Globe,
 } from "@gravity-ui/icons";
 import { FaSignOutAlt } from "react-icons/fa";
 
 const menuItems = [
   {
     title: "Dashboard",
-    href: "/dashboard",
+    href: "/Dashboard/user",
     icon: House,
+  },
+  {
+    title: "Discover Mess",
+    href: "/Dashboard/user/discover-mess",
+    icon: Globe,
   },
   {
     title: "My Meals",
