@@ -36,19 +36,19 @@ const menuItems = [
     icon: Calendar,
   },
   {
+    title: "Work Reports",
+    href: "/Dashboard/user/work-report",
+    icon: ChartColumn,
+  },
+  {
     title: "Expenses",
     href: "/Dashboard/user/expenses",
     icon: Receipt,
   },
   {
     title: "Payments",
-    href: "/dashboard/payments",
+    href: "/Dashboard/user/payments",
     icon: CreditCard,
-  },
-  {
-    title: "Reports",
-    href: "/dashboard/reports",
-    icon: ChartColumn,
   },
 ];
 
@@ -137,7 +137,7 @@ export default function Sidebar() {
 
         <div className="space-y-1.5">
           <Link
-            href="/dashboard/profile"
+            href="/Dashboard/user/profile"
             className="group flex items-center gap-3 rounded-2xl px-3.5 py-3 text-sm font-semibold text-gray-500 transition-all hover:bg-green-50 hover:text-green-900"
           >
             <span className="flex size-9 items-center justify-center rounded-xl bg-gray-50 group-hover:bg-green-100">

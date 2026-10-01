@@ -172,7 +172,7 @@ function ExpenseRow({ expense }) {
           <Chip
             size="sm"
             variant="flat"
-            classNames={{
+            className={{
               base: "h-5 bg-gray-50",
               content: "px-1.5 text-[10px] font-semibold text-gray-500",
             }}
