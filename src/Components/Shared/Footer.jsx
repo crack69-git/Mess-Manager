@@ -134,7 +134,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Divider */}
+        {/* Separator */}
         <div className="my-12 h-px bg-gray-200" />
 
         {/* Bottom */}

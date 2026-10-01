@@ -37,7 +37,7 @@ const menuItems = [
   },
   {
     title: "Expenses",
-    href: "/dashboard/expenses",
+    href: "/Dashboard/user/expenses",
     icon: Receipt,
   },
   {

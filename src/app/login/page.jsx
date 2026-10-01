@@ -174,7 +174,7 @@ export default function LoginPage() {
               </Button>
             </Form>
 
-            {/* Divider */}
+            {/* Separator */}
             <div className="my-7 flex items-center gap-3">
               <div className="h-px flex-1 bg-gray-200" />
 
