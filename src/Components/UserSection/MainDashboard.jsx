@@ -81,7 +81,7 @@ function StatCard({ icon: Icon, label, value, description }) {
 
 export default function MainDashboard() {
   return (
-    <main className="min-h-screen bg-gray-50 md:ml-34 w-11/12 mx-auto">
+    <main className="min-h-screen bg-gray-50 ">
       {/* Topbar */}
       <header className="sticky top-0 z-30 border-b border-gray-100 bg-white/90 backdrop-blur-xl">
         <div className="flex h-20 items-center justify-between px-5 sm:px-8 lg:px-10">

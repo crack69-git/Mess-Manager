@@ -202,7 +202,9 @@ const Navbar = async () => {
                 </div>
                 <Dropdown.Menu>
                   <Dropdown.Item id="dashboard" textValue="Dashboard">
-                    <Label>Dashboard</Label>
+                    <Link href="/Dashboard/user">
+                      <Label>Dashboard</Label>
+                    </Link>
                   </Dropdown.Item>
                   <Dropdown.Item id="profile" textValue="Profile">
                     <Label>Profile</Label>

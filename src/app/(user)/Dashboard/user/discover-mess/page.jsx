@@ -155,7 +155,7 @@ function MessCard({ mess }) {
   const availableSeats = mess.capacity - mess.members;
 
   return (
-    <div className="group overflow-hidden rounded-[1.75rem] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-100 hover:shadow-xl hover:shadow-green-900/5">
+    <div className=" group overflow-hidden rounded-[1.75rem] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-100 hover:shadow-xl hover:shadow-green-900/5">
       {/* Image */}
       <div className="relative h-52 overflow-hidden">
         <img

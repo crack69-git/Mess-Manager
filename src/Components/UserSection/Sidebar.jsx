@@ -26,8 +26,13 @@ const menuItems = [
     icon: Globe,
   },
   {
-    title: "My Meals",
-    href: "/dashboard/meals",
+    title: "My Mess",
+    href: "/Dashboard/user/my-mess",
+    icon: Calendar,
+  },
+  {
+    title: "My Meal Plan",
+    href: "/Dashboard/user/my-meals",
     icon: Calendar,
   },
   {
