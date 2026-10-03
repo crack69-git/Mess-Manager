@@ -1,5 +1,4 @@
-"use client";
-
+import { auth } from "@/lib/auth";
 import {
   Bell,
   Calendar,
@@ -10,6 +9,8 @@ import {
 } from "@gravity-ui/icons";
 
 import { Button, Separator, Input, Switch } from "@heroui/react";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
 import {
   FiCamera,
@@ -26,7 +27,7 @@ import {
   FiUsers,
 } from "react-icons/fi";
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
   return (
     <main className="min-h-screen w-full bg-gray-50">
       {/* Background decoration */}

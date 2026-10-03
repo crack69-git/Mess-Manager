@@ -9,6 +9,11 @@ const nextConfig = {
         hostname: "tse2.mm.bing.net",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
   },
 };

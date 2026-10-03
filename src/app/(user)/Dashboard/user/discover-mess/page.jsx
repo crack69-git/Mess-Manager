@@ -7,6 +7,9 @@ import {
   Star,
 } from "@gravity-ui/icons";
 import { Filter } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { IoAddSharp } from "react-icons/io5";
 
 const messData = [
   {
@@ -158,9 +161,11 @@ function MessCard({ mess }) {
     <div className=" group overflow-hidden rounded-[1.75rem] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-100 hover:shadow-xl hover:shadow-green-900/5">
       {/* Image */}
       <div className="relative h-52 overflow-hidden">
-        <img
+        <Image
           src={mess.image}
           alt={mess.name}
+          width={400}
+          height={208}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />
 
@@ -239,12 +244,14 @@ function MessCard({ mess }) {
           </div>
 
           {/* Static button */}
-          <button
-            type="button"
-            className="rounded-xl bg-green-800 px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-green-900/10 transition hover:bg-green-900 active:scale-95"
-          >
-            Join Mess
-          </button>
+          <Link href={`/Dashboard/user/discover-mess/${mess.id}`}>
+            <button
+              type="button"
+              className="rounded-xl bg-green-800 px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-green-900/10 transition hover:bg-green-900 active:scale-95"
+            >
+              Mess Details
+            </button>
+          </Link>
         </div>
       </div>
     </div>
@@ -323,6 +330,13 @@ export default function DiscoverMessPage() {
               >
                 <Filter className="size-4" />
                 Filters
+              </button>
+              <button
+                type="button"
+                className="flex h-12 items-center justify-center gap-2 rounded-xl bg-green-800 px-5 text-sm font-bold text-white"
+              >
+                <IoAddSharp size={24} />
+                Create Mess
               </button>
             </div>
           </div>

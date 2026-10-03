@@ -207,7 +207,9 @@ const Navbar = async () => {
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item id="profile" textValue="Profile">
-                    <Label>Profile</Label>
+                    <Link href="/Dashboard/user/profile">
+                      <Label>Profile</Label>
+                    </Link>
                   </Dropdown.Item>
                   <Dropdown.Item id="settings" textValue="Settings">
                     <div className="flex w-full items-center justify-between gap-2">
@@ -244,14 +246,20 @@ const Navbar = async () => {
             </Link>
           )}
 
-          <Button
-            href="/dashboard"
-            radius="lg"
-            className="bg-green-900 px-5 font-semibold text-white shadow-sm transition-all hover:bg-green-800 hover:shadow-md rounded-lg"
+          <Link
+            href="https://www.linkedin.com/in/ashutoshtanchangya/"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <FaGlobeAmericas />
-            Developer
-          </Button>
+            <Button
+              href="/dashboard"
+              radius="lg"
+              className="bg-green-900 px-5 font-semibold text-white shadow-sm transition-all hover:bg-green-800 hover:shadow-md rounded-lg"
+            >
+              <FaGlobeAmericas />
+              Developer
+            </Button>
+          </Link>
         </div>
       </nav>
     </header>
