@@ -175,7 +175,7 @@ export default function SignupPage() {
                   {/* User */}
 
                   <Radio
-                    value="user"
+                    value="Member"
                     className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all hover:border-green-300 hover:bg-green-50"
                   >
                     <Radio.Content>
@@ -185,12 +185,8 @@ export default function SignupPage() {
 
                       <div>
                         <p className="text-sm font-semibold text-gray-800">
-                          User
+                          Member
                         </p>
-
-                        <Description className="text-xs text-gray-400">
-                          Manage your mess
-                        </Description>
                       </div>
                     </Radio.Content>
                   </Radio>
@@ -198,7 +194,7 @@ export default function SignupPage() {
                   {/* Admin */}
 
                   <Radio
-                    value="admin"
+                    value="Admin"
                     className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all hover:border-green-300 hover:bg-green-50"
                   >
                     <Radio.Content>
@@ -210,10 +206,6 @@ export default function SignupPage() {
                         <p className="text-sm font-semibold text-gray-800">
                           Admin
                         </p>
-
-                        <Description className="text-xs text-gray-400">
-                          Manage the entire mess
-                        </Description>
                       </div>
                     </Radio.Content>
                   </Radio>
