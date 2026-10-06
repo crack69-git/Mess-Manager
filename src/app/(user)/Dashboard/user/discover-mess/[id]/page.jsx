@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ArrowUpRightFromSquare,
   Calendar,
@@ -137,29 +135,6 @@ const bills = [
     title: "Other Shared Expenses",
     description: "Small repairs and household items",
     amount: "৳ 200",
-  },
-];
-
-const members = [
-  {
-    name: "Rakib Hasan",
-    role: "Mess Manager",
-    initials: "RH",
-  },
-  {
-    name: "Tanvir Ahmed",
-    role: "Member",
-    initials: "TA",
-  },
-  {
-    name: "Sakib Khan",
-    role: "Member",
-    initials: "SK",
-  },
-  {
-    name: "Nafis Rahman",
-    role: "Member",
-    initials: "NR",
   },
 ];
 
@@ -463,7 +438,7 @@ export default function MessDetailsPage() {
               {/* =====================================================
                   MEMBERS
               ====================================================== */}
-              <section className="rounded-[1.75rem] border border-gray-100 bg-white p-6 shadow-sm sm:p-7">
+              {/* <section className="rounded-[1.75rem] border border-gray-100 bg-white p-6 shadow-sm sm:p-7">
                 <SectionHeading
                   title="Mess Members"
                   subtitle={`${mess.members} people currently live in this mess.`}
@@ -506,7 +481,7 @@ export default function MessDetailsPage() {
                   View all members
                   <ChevronRight className="size-3.5" />
                 </button>
-              </section>
+              </section> */}
 
               {/* =====================================================
                   RULES

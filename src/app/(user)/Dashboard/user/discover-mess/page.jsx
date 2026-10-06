@@ -1,3 +1,4 @@
+import CreateMessModal from "@/Components/UserSection/CreateMessModal";
 import {
   ChevronDown,
   LocationArrowFill,
@@ -331,13 +332,7 @@ export default function DiscoverMessPage() {
                 <Filter className="size-4" />
                 Filters
               </button>
-              <button
-                type="button"
-                className="flex h-12 items-center justify-center gap-2 rounded-xl bg-green-800 px-5 text-sm font-bold text-white"
-              >
-                <IoAddSharp size={24} />
-                Create Mess
-              </button>
+              <CreateMessModal />
             </div>
           </div>
 
