@@ -13,6 +13,7 @@ import {
   Globe,
 } from "@gravity-ui/icons";
 import { FaSignOutAlt } from "react-icons/fa";
+import NavLink from "../Shared/NavLink";
 
 const menuItems = [
   {
@@ -102,30 +103,22 @@ export default function Sidebar() {
         <div className="space-y-1.5">
           {menuItems.map((item, index) => {
             const Icon = item.icon;
-            const active = index === 0;
+            // const active = index === 0;
 
             return (
-              <Link
-                key={item.title}
-                href={item.href}
-                className={`group flex items-center gap-3 rounded-2xl px-3.5 py-3 text-sm font-semibold transition-all duration-200 ${
-                  active
-                    ? "bg-green-800 text-white shadow-md shadow-green-900/10"
-                    : "text-gray-500 hover:bg-green-50 hover:text-green-900"
-                }`}
-              >
+              <NavLink key={item.title} href={item.href}>
                 <span
-                  className={`flex size-9 items-center justify-center rounded-xl transition-colors ${
-                    active
-                      ? "bg-white/10"
-                      : "bg-gray-50 group-hover:bg-green-100"
-                  }`}
+                // className={`flex size-9 items-center justify-center rounded-xl transition-colors ${
+                //   active
+                //     ? "bg-white/10"
+                //     : "bg-gray-50 group-hover:bg-green-100"
+                // }`}
                 >
                   <Icon className="size-[18px]" />
                 </span>
 
                 {item.title}
-              </Link>
+              </NavLink>
             );
           })}
         </div>

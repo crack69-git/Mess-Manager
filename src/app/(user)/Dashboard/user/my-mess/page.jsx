@@ -1,5 +1,4 @@
-"use client";
-
+import MessOption from "@/Components/UserSection/MessOption";
 import {
   Calendar,
   ChevronDown,
@@ -210,14 +209,6 @@ export default function MyMessPage() {
                 of your current mess community.
               </p>
             </div>
-
-            <Button
-              variant="flat"
-              className="h-11 rounded-xl bg-white px-5 font-semibold text-gray-700 shadow-sm"
-            >
-              <FiMoreVertical className="size-4" />
-              Mess Options
-            </Button>
           </div>
 
           {/* =====================================================
@@ -338,14 +329,7 @@ export default function MyMessPage() {
                   <Button className="h-11 flex-1 rounded-xl bg-green-800 font-bold text-white shadow-sm shadow-green-900/10">
                     View Details
                   </Button>
-
-                  <Button
-                    isIconOnly
-                    variant="flat"
-                    className="h-11 w-11 rounded-xl bg-gray-50 text-gray-600"
-                  >
-                    <FiMoreVertical className="size-4" />
-                  </Button>
+                  <MessOption />
                 </div>
               </div>
             </section>

@@ -1,15 +1,15 @@
 "use client";
 
-import { Calendar, ChevronDown, ChevronRight, Plus } from "@gravity-ui/icons";
+import { useMemo, useState } from "react";
 
-import { Button, Chip, Separator } from "@heroui/react";
+import { Calendar } from "@gravity-ui/icons";
+
+import { Button, Separator } from "@heroui/react";
 
 import {
-  FiArrowDownLeft,
-  FiArrowUpRight,
-  FiCreditCard,
+  FiCheckCircle,
+  FiClock,
   FiDollarSign,
-  FiEdit3,
   FiHome,
   FiMoreVertical,
   FiShoppingBag,
@@ -18,132 +18,218 @@ import {
   FiWifi,
 } from "react-icons/fi";
 
-const expenseSummary = {
-  total: "৳ 5,850",
-  monthlyBudget: "৳ 7,000",
-  remaining: "৳ 1,150",
-  messCost: "৳ 4,500",
-  otherExpenses: "৳ 1,350",
-};
+import { Search } from "lucide-react";
 
-const expenses = [
+/* =========================================================
+   MEMBER DATA
+========================================================= */
+
+const members = [
   {
     id: 1,
-    title: "Monthly Mess Payment",
-    category: "Mess",
-    description: "October monthly mess cost",
-    amount: "৳ 4,500",
-    date: "Oct 01, 2026",
-    time: "09:30 AM",
-    icon: FiHome,
-    type: "payment",
-    status: "Paid",
+    name: "Rahim Ahmed",
+    initials: "RA",
+    email: "rahim@example.com",
+    total: 4500,
+    paid: 4500,
+    due: 0,
+    savings: 500,
+    status: "Completed",
+    month: "October",
+    year: 2026,
   },
   {
     id: 2,
-    title: "Internet Bill",
-    category: "Utilities",
-    description: "Monthly WiFi contribution",
-    amount: "৳ 350",
-    date: "Sep 30, 2026",
-    time: "07:20 PM",
-    icon: FiWifi,
-    type: "payment",
-    status: "Paid",
+    name: "Sakib Hasan",
+    initials: "SH",
+    email: "sakib@example.com",
+    total: 4500,
+    paid: 3000,
+    due: 1500,
+    savings: 200,
+    status: "Due",
+    month: "October",
+    year: 2026,
   },
   {
     id: 3,
-    title: "Grocery Contribution",
-    category: "Groceries",
-    description: "Shared grocery purchase",
-    amount: "৳ 500",
-    date: "Sep 29, 2026",
-    time: "05:45 PM",
-    icon: FiShoppingBag,
-    type: "payment",
-    status: "Paid",
+    name: "Nusrat Jahan",
+    initials: "NJ",
+    email: "nusrat@example.com",
+    total: 4500,
+    paid: 4500,
+    due: 0,
+    savings: 750,
+    status: "Completed",
+    month: "October",
+    year: 2026,
   },
   {
     id: 4,
-    title: "Cleaning Supplies",
-    category: "Household",
-    description: "Shared cleaning materials",
-    amount: "৳ 250",
-    date: "Sep 27, 2026",
-    time: "04:10 PM",
-    icon: FiShoppingBag,
-    type: "payment",
-    status: "Paid",
+    name: "Tanvir Hossain",
+    initials: "TH",
+    email: "tanvir@example.com",
+    total: 4500,
+    paid: 2500,
+    due: 2000,
+    savings: 100,
+    status: "Due",
+    month: "October",
+    year: 2026,
   },
   {
     id: 5,
-    title: "Previous Balance",
-    category: "Adjustment",
-    description: "Previous month adjustment",
-    amount: "৳ 250",
-    date: "Sep 25, 2026",
-    time: "11:15 AM",
-    icon: FiCreditCard,
-    type: "payment",
-    status: "Paid",
+    name: "Mehedi Hasan",
+    initials: "MH",
+    email: "mehedi@example.com",
+    total: 4500,
+    paid: 4500,
+    due: 0,
+    savings: 900,
+    status: "Saving",
+    month: "October",
+    year: 2026,
+  },
+  {
+    id: 6,
+    name: "Sadia Akter",
+    initials: "SA",
+    email: "sadia@example.com",
+    total: 4500,
+    paid: 4000,
+    due: 500,
+    savings: 300,
+    status: "Due",
+    month: "October",
+    year: 2026,
+  },
+  {
+    id: 7,
+    name: "Fahim Rahman",
+    initials: "FR",
+    email: "fahim@example.com",
+    total: 4500,
+    paid: 4500,
+    due: 0,
+    savings: 650,
+    status: "Completed",
+    month: "September",
+    year: 2026,
+  },
+  {
+    id: 8,
+    name: "Sadia Rahman",
+    initials: "SR",
+    email: "sadia.r@example.com",
+    total: 4500,
+    paid: 3500,
+    due: 1000,
+    savings: 250,
+    status: "Due",
+    month: "September",
+    year: 2026,
+  },
+  {
+    id: 9,
+    name: "Arif Hossain",
+    initials: "AH",
+    email: "arif@example.com",
+    total: 4500,
+    paid: 4500,
+    due: 0,
+    savings: 850,
+    status: "Saving",
+    month: "August",
+    year: 2026,
+  },
+  {
+    id: 10,
+    name: "Mim Akter",
+    initials: "MA",
+    email: "mim@example.com",
+    total: 4500,
+    paid: 4500,
+    due: 0,
+    savings: 600,
+    status: "Completed",
+    month: "July",
+    year: 2026,
   },
 ];
+
+/* =========================================================
+   CATEGORY DATA
+========================================================= */
 
 const categoryData = [
   {
     name: "Mess",
-    amount: "৳ 4,500",
-    percentage: 77,
+    amount: 4500,
     icon: FiHome,
   },
   {
     name: "Utilities",
-    amount: "৳ 350",
-    percentage: 6,
+    amount: 800,
     icon: FiWifi,
   },
   {
     name: "Groceries",
-    amount: "৳ 500",
-    percentage: 9,
+    amount: 500,
     icon: FiShoppingBag,
   },
   {
     name: "Household",
-    amount: "৳ 250",
-    percentage: 4,
-    icon: FiHome,
+    amount: 250,
+    icon: FiShoppingBag,
   },
   {
-    name: "Adjustment",
-    amount: "৳ 250",
-    percentage: 4,
-    icon: FiCreditCard,
+    name: "Other",
+    amount: 250,
+    icon: FiDollarSign,
   },
 ];
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function formatAmount(amount) {
+  return `৳ ${Number(amount || 0).toLocaleString()}`;
+}
+
+/* =========================================================
+   SUMMARY CARD
+========================================================= */
 
 function SummaryCard({
   title,
   amount,
   subtitle,
   icon: Icon,
-  positive = false,
+  variant = "default",
 }) {
+  const styles = {
+    default: "bg-gray-50 text-gray-700",
+    success: "bg-green-50 text-green-700",
+    warning: "bg-orange-50 text-orange-600",
+    danger: "bg-red-50 text-red-600",
+  };
+
   return (
     <div className="rounded-[1.5rem] border border-gray-100 bg-white p-5 shadow-sm">
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs text-gray-400">{title}</p>
+          <p className="text-xs font-medium text-gray-400">{title}</p>
 
-          <p className="mt-1 text-2xl font-bold text-gray-950">{amount}</p>
+          <p className="mt-2 text-2xl font-bold tracking-tight text-gray-950">
+            {amount}
+          </p>
 
           <p className="mt-1 text-xs text-gray-400">{subtitle}</p>
         </div>
 
         <div
-          className={`flex size-11 items-center justify-center rounded-xl ${
-            positive ? "bg-green-50 text-green-800" : "bg-gray-50 text-gray-600"
-          }`}
+          className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${styles[variant]}`}
         >
           <Icon className="size-5" />
         </div>
@@ -152,78 +238,140 @@ function SummaryCard({
   );
 }
 
-function ExpenseRow({ expense }) {
-  const Icon = expense.icon;
+/* =========================================================
+   MEMBER TABLE ROW
+========================================================= */
+
+function MemberExpenseRow({ member }) {
+  const statusStyles = {
+    Completed: {
+      dot: "bg-green-500",
+      text: "text-green-700",
+      badge: "bg-green-50",
+    },
+
+    Due: {
+      dot: "bg-orange-500",
+      text: "text-orange-700",
+      badge: "bg-orange-50",
+    },
+
+    Saving: {
+      dot: "bg-blue-500",
+      text: "text-blue-700",
+      badge: "bg-blue-50",
+    },
+  };
+
+  const style = statusStyles[member.status] || statusStyles.Completed;
 
   return (
-    <div className="group flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-4 transition-all duration-200 hover:border-green-100 hover:shadow-md hover:shadow-green-900/5">
-      {/* Icon */}
-      <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-600 transition-colors group-hover:bg-green-50 group-hover:text-green-800">
-        <Icon className="size-4" />
-      </div>
+    <div className="group rounded-2xl border border-gray-100 bg-white p-4 transition-all duration-200 hover:border-green-100 hover:shadow-md hover:shadow-green-900/5">
+      <div className="grid gap-4 md:grid-cols-[minmax(220px,1.6fr)_110px_110px_110px_110px_110px_40px] md:items-center">
+        {/* MEMBER */}
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-green-100 text-sm font-bold text-green-800">
+            {member.initials}
+          </div>
 
-      {/* Details */}
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-2">
-          <h3 className="truncate text-sm font-bold text-gray-950">
-            {expense.title}
-          </h3>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-bold text-gray-950">
+              {member.name}
+            </p>
 
-          <Chip
-            size="sm"
-            variant="flat"
-            className={{
-              base: "h-5 bg-gray-50",
-              content: "px-1.5 text-[10px] font-semibold text-gray-500",
-            }}
-          >
-            {expense.category}
-          </Chip>
+            <p className="truncate text-xs text-gray-400">{member.email}</p>
+          </div>
         </div>
 
-        <p className="mt-1 truncate text-xs text-gray-400">
-          {expense.description}
-        </p>
-      </div>
+        {/* TOTAL */}
+        <div>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-gray-400 md:hidden">
+            Total
+          </p>
 
-      {/* Date */}
-      <div className="hidden text-right md:block">
-        <p className="text-xs font-medium text-gray-600">{expense.date}</p>
+          <p className="text-sm font-bold text-gray-950">
+            {formatAmount(member.total)}
+          </p>
+        </div>
 
-        <p className="mt-1 text-[11px] text-gray-400">{expense.time}</p>
-      </div>
+        {/* PAID */}
+        <div>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-gray-400 md:hidden">
+            Paid
+          </p>
 
-      {/* Amount */}
-      <div className="text-right">
-        <p className="text-sm font-bold text-gray-950">{expense.amount}</p>
+          <p className="text-sm font-bold text-green-700">
+            {formatAmount(member.paid)}
+          </p>
+        </div>
 
-        <div className="mt-1 flex items-center justify-end gap-1">
-          <span className="size-1.5 rounded-full bg-green-500" />
+        {/* DUE */}
+        <div>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-gray-400 md:hidden">
+            Due
+          </p>
 
-          <span className="text-[10px] font-semibold text-green-700">
-            {expense.status}
+          <p
+            className={`text-sm font-bold ${
+              member.due > 0 ? "text-orange-600" : "text-gray-400"
+            }`}
+          >
+            {formatAmount(member.due)}
+          </p>
+        </div>
+
+        {/* SAVINGS */}
+        <div>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-gray-400 md:hidden">
+            Savings
+          </p>
+
+          <p className="text-sm font-bold text-blue-700">
+            {formatAmount(member.savings)}
+          </p>
+        </div>
+
+        {/* STATUS */}
+        <div>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-gray-400 md:hidden">
+            Status
+          </p>
+
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[10px] font-bold ${style.badge} ${style.text}`}
+          >
+            <span className={`size-1.5 rounded-full ${style.dot}`} />
+
+            {member.status}
           </span>
         </div>
-      </div>
 
-      {/* Menu */}
-      <button
-        type="button"
-        className="flex size-9 shrink-0 items-center justify-center rounded-xl text-gray-400 transition hover:bg-gray-50 hover:text-gray-700"
-      >
-        <FiMoreVertical className="size-4" />
-      </button>
+        {/* ACTION */}
+        <button
+          type="button"
+          className="flex size-9 items-center justify-center rounded-xl text-gray-400 transition hover:bg-gray-50 hover:text-gray-700"
+        >
+          <FiMoreVertical className="size-4" />
+        </button>
+      </div>
     </div>
   );
 }
 
-function CategoryRow({ category }) {
+/* =========================================================
+   CATEGORY ROW
+========================================================= */
+
+function CategoryRow({ category, total }) {
   const Icon = category.icon;
+
+  const percentage =
+    total > 0 ? Math.round((category.amount / total) * 100) : 0;
 
   return (
     <div>
       <div className="flex items-center gap-3">
-        <div className="flex size-9 items-center justify-center rounded-lg bg-gray-50 text-gray-600">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-gray-50 text-gray-600">
           <Icon className="size-4" />
         </div>
 
@@ -233,13 +381,17 @@ function CategoryRow({ category }) {
               {category.name}
             </p>
 
-            <p className="text-sm font-bold text-gray-950">{category.amount}</p>
+            <p className="text-sm font-bold text-gray-950">
+              {formatAmount(category.amount)}
+            </p>
           </div>
 
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-gray-100">
             <div
               className="h-full rounded-full bg-green-700"
-              style={{ width: `${category.percentage}%` }}
+              style={{
+                width: `${percentage}%`,
+              }}
             />
           </div>
         </div>
@@ -248,17 +400,103 @@ function CategoryRow({ category }) {
   );
 }
 
+/* =========================================================
+   MAIN PAGE
+========================================================= */
+
 export default function ExpensesPage() {
+  const [period, setPeriod] = useState("month");
+  const [status, setStatus] = useState("all");
+  const [search, setSearch] = useState("");
+
+  const periodLabel = {
+    month: "This Month",
+    year: "This Year",
+    all: "All Time",
+  };
+
+  /* =======================================================
+     FILTER MEMBERS
+  ======================================================= */
+
+  const filteredMembers = useMemo(() => {
+    return members.filter((member) => {
+      const matchesPeriod =
+        period === "month"
+          ? member.month === "October" && member.year === 2026
+          : period === "year"
+            ? member.year === 2026
+            : true;
+
+      const matchesStatus =
+        status === "all" ||
+        member.status.toLowerCase() === status.toLowerCase();
+
+      const matchesSearch =
+        member.name.toLowerCase().includes(search.toLowerCase()) ||
+        member.email.toLowerCase().includes(search.toLowerCase());
+
+      return matchesPeriod && matchesStatus && matchesSearch;
+    });
+  }, [period, status, search]);
+
+  /* =======================================================
+     SUMMARY CALCULATIONS
+  ======================================================= */
+
+  const completedMembers = filteredMembers.filter(
+    (member) => member.status === "Completed",
+  );
+
+  const dueMembers = filteredMembers.filter(
+    (member) => member.status === "Due",
+  );
+
+  const savingMembers = filteredMembers.filter(
+    (member) => member.status === "Saving",
+  );
+
+  const completedTotal = completedMembers.reduce(
+    (total, member) => total + member.paid,
+    0,
+  );
+
+  const dueTotal = dueMembers.reduce((total, member) => total + member.due, 0);
+
+  const totalSavings = filteredMembers.reduce(
+    (total, member) => total + member.savings,
+    0,
+  );
+
+  const totalPaid = filteredMembers.reduce(
+    (total, member) => total + member.paid,
+    0,
+  );
+
+  const totalExpected = filteredMembers.reduce(
+    (total, member) => total + member.total,
+    0,
+  );
+
+  const collectionPercentage =
+    totalExpected > 0 ? Math.round((totalPaid / totalExpected) * 100) : 0;
+
+  const categoryTotal = categoryData.reduce(
+    (total, category) => total + category.amount,
+    0,
+  );
+
   return (
     <main className="min-h-screen w-full bg-gray-50">
-      {/* Background decoration */}
+      {/* BACKGROUND DECORATION */}
       <div className="pointer-events-none fixed -right-40 -top-40 size-[450px] rounded-full bg-green-50/70 blur-3xl" />
 
       <div className="relative px-5 py-10 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          {/* =====================================================
+          {/* =================================================
               HEADER
-          ====================================================== */}
+          ================================================== */}
+
           <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
             <div>
               <span className="inline-flex rounded-full border border-green-100 bg-green-50 px-4 py-2 text-xs font-bold uppercase tracking-wider text-green-900">
@@ -266,26 +504,22 @@ export default function ExpensesPage() {
               </span>
 
               <h1 className="mt-5 text-3xl font-bold tracking-tight text-gray-950 sm:text-4xl lg:text-5xl">
-                Keep track of your
-                <span className="block text-green-800">mess expenses.</span>
+                Know where your
+                <span className="block text-green-800">money goes.</span>
               </h1>
 
               <p className="mt-4 max-w-2xl text-sm leading-7 text-gray-500 sm:text-base">
-                Monitor your monthly mess payments, shared expenses and spending
-                so you always know where your money goes.
+                Track every member's payment, due amount and savings across your
+                mess expenses.
               </p>
             </div>
-
-            <Button className="h-11 rounded-xl bg-green-800 px-5 font-bold text-white shadow-sm shadow-green-900/10">
-              <Plus className="size-4" />
-              Add Expense
-            </Button>
           </div>
 
-          {/* =====================================================
-              MONTH SELECTOR
-          ====================================================== */}
-          <div className="mt-9 flex flex-col justify-between gap-4 rounded-[1.5rem] border border-gray-100 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:p-5">
+          {/* =================================================
+              PERIOD FILTER
+          ================================================== */}
+
+          <div className="mt-9 flex flex-col gap-4 rounded-[1.5rem] border border-gray-100 bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between lg:p-5">
             <div className="flex items-center gap-3">
               <div className="flex size-10 items-center justify-center rounded-xl bg-green-50 text-green-800">
                 <Calendar className="size-4" />
@@ -294,135 +528,241 @@ export default function ExpensesPage() {
               <div>
                 <p className="text-xs text-gray-400">Expense period</p>
 
-                <p className="text-sm font-bold text-gray-950">October 2026</p>
+                <p className="text-sm font-bold text-gray-950">
+                  {periodLabel[period]}
+                </p>
               </div>
             </div>
 
-            <Button
-              variant="flat"
-              className="h-10 rounded-xl bg-gray-50 px-4 text-sm font-semibold text-gray-600"
-            >
-              October 2026
-              <ChevronDown className="size-4 text-gray-400" />
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              {[
+                {
+                  id: "month",
+                  label: "This Month",
+                },
+                {
+                  id: "year",
+                  label: "This Year",
+                },
+                {
+                  id: "all",
+                  label: "All Time",
+                },
+              ].map((item) => (
+                <Button
+                  key={item.id}
+                  variant="flat"
+                  onPress={() => setPeriod(item.id)}
+                  className={`h-10 rounded-xl px-4 text-sm font-semibold transition ${
+                    period === item.id
+                      ? "bg-green-800 text-white"
+                      : "bg-gray-50 text-gray-600 hover:bg-green-50 hover:text-green-800"
+                  }`}
+                >
+                  {item.label}
+                </Button>
+              ))}
+            </div>
           </div>
 
-          {/* =====================================================
+          {/* =================================================
               SUMMARY CARDS
-          ====================================================== */}
+          ================================================== */}
+
           <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <SummaryCard
-              title="Total Expenses"
-              amount={expenseSummary.total}
-              subtitle="This month"
-              icon={FiDollarSign}
+              title="Completed"
+              amount={formatAmount(completedTotal)}
+              subtitle={`${completedMembers.length} members paid`}
+              icon={FiCheckCircle}
+              variant="success"
             />
 
             <SummaryCard
-              title="Mess Payment"
-              amount={expenseSummary.messCost}
-              subtitle="Monthly mess cost"
-              icon={FiHome}
+              title="Due"
+              amount={formatAmount(dueTotal)}
+              subtitle={`${dueMembers.length} members have due`}
+              icon={FiClock}
+              variant="warning"
             />
 
             <SummaryCard
-              title="Other Expenses"
-              amount={expenseSummary.otherExpenses}
-              subtitle="Shared & personal"
-              icon={FiShoppingBag}
+              title="Total Members"
+              amount={filteredMembers.length}
+              subtitle={`${collectionPercentage}% payment collected`}
+              icon={FiUsers}
             />
 
             <SummaryCard
-              title="Remaining Budget"
-              amount={expenseSummary.remaining}
-              subtitle="From ৳ 7,000 budget"
+              title="Savings"
+              amount={formatAmount(totalSavings)}
+              subtitle={`${savingMembers.length} members saving`}
               icon={FiTrendingUp}
-              positive
+              variant="success"
             />
           </div>
 
-          {/* =====================================================
-              BUDGET PROGRESS
-          ====================================================== */}
+          {/* =================================================
+              COLLECTION PROGRESS
+          ================================================== */}
+
           <div className="mt-6 rounded-[1.5rem] border border-gray-100 bg-white p-5 shadow-sm">
-            <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
               <div>
-                <p className="text-xs text-gray-400">Monthly Budget</p>
+                <p className="text-xs text-gray-400">Collection progress</p>
 
                 <div className="mt-1 flex items-baseline gap-2">
-                  <h2 className="text-xl font-bold text-gray-950">৳ 5,850</h2>
+                  <h2 className="text-xl font-bold text-gray-950">
+                    {formatAmount(totalPaid)}
+                  </h2>
 
-                  <span className="text-xs text-gray-400">of ৳ 7,000</span>
+                  <span className="text-xs text-gray-400">
+                    of {formatAmount(totalExpected)}
+                  </span>
                 </div>
               </div>
 
               <span className="rounded-full bg-green-50 px-3 py-1.5 text-xs font-bold text-green-800">
-                84% used
+                {collectionPercentage}% collected
               </span>
             </div>
 
             <div className="mt-4 h-3 overflow-hidden rounded-full bg-gray-100">
               <div
-                className="h-full rounded-full bg-green-700"
-                style={{ width: "84%" }}
+                className="h-full rounded-full bg-green-700 transition-all duration-500"
+                style={{
+                  width: `${collectionPercentage}%`,
+                }}
               />
             </div>
 
             <div className="mt-3 flex justify-between text-xs text-gray-400">
               <span>৳ 0</span>
-              <span>৳ 7,000</span>
+
+              <span>{formatAmount(totalExpected)}</span>
             </div>
           </div>
 
-          {/* =====================================================
+          {/* =================================================
               MAIN CONTENT
-          ====================================================== */}
+          ================================================== */}
+
           <div className="mt-9 grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-            {/* ===================================================
-                TRANSACTIONS
-            ==================================================== */}
+            {/* =================================================
+                MEMBER TABLE
+            ================================================== */}
+
             <section>
-              <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
                 <div>
                   <h2 className="text-xl font-bold text-gray-950">
-                    Recent Expenses
+                    Member Expenses
                   </h2>
 
                   <p className="mt-1 text-sm text-gray-400">
-                    Your latest mess-related transactions.
+                    Check each member's payment, due amount and savings.
                   </p>
                 </div>
-
-                <Button
-                  variant="flat"
-                  className="h-10 rounded-xl bg-white px-4 text-sm font-semibold text-gray-600 shadow-sm"
-                >
-                  All Expenses
-                  <ChevronDown className="size-4 text-gray-400" />
-                </Button>
               </div>
 
-              <div className="mt-5 space-y-3">
-                {expenses.map((expense) => (
-                  <ExpenseRow key={expense.id} expense={expense} />
-                ))}
+              {/* SEARCH + STATUS FILTER */}
+
+              <div className="mt-5 flex flex-col gap-3 lg:flex-row">
+                {/* SEARCH */}
+
+                <div className="flex h-11 flex-1 items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 shadow-sm">
+                  <Search className="size-4 shrink-0 text-gray-400" />
+
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search member..."
+                    className="w-full bg-transparent text-sm text-gray-700 outline-none placeholder:text-gray-400"
+                  />
+                </div>
+
+                {/* STATUS */}
+
+                <div className="flex gap-2 overflow-x-auto">
+                  {[
+                    {
+                      id: "all",
+                      label: "All",
+                    },
+                    {
+                      id: "completed",
+                      label: "Completed",
+                    },
+                    {
+                      id: "due",
+                      label: "Due",
+                    },
+                    {
+                      id: "saving",
+                      label: "Saving",
+                    },
+                  ].map((item) => (
+                    <Button
+                      key={item.id}
+                      variant="flat"
+                      onPress={() => setStatus(item.id)}
+                      className={`h-11 shrink-0 rounded-xl px-4 text-xs font-bold ${
+                        status === item.id
+                          ? "bg-green-800 text-white"
+                          : "bg-white text-gray-500 shadow-sm"
+                      }`}
+                    >
+                      {item.label}
+                    </Button>
+                  ))}
+                </div>
               </div>
 
-              {/* View all */}
-              <button
-                type="button"
-                className="mx-auto mt-5 flex items-center gap-2 text-sm font-bold text-green-800 transition hover:text-green-900"
-              >
-                View all expenses
-                <ChevronRight className="size-4" />
-              </button>
+              {/* TABLE HEADER */}
+
+              <div className="mt-6 hidden grid-cols-[minmax(220px,1.6fr)_110px_110px_110px_110px_110px_40px] gap-4 px-4 text-[10px] font-bold uppercase tracking-wider text-gray-400 md:grid">
+                <span>Member</span>
+                <span>Total</span>
+                <span>Paid</span>
+                <span>Due</span>
+                <span>Savings</span>
+                <span>Status</span>
+                <span />
+              </div>
+
+              {/* TABLE ROWS */}
+
+              <div className="mt-2 space-y-3">
+                {filteredMembers.length > 0 ? (
+                  filteredMembers.map((member) => (
+                    <MemberExpenseRow key={member.id} member={member} />
+                  ))
+                ) : (
+                  <div className="rounded-2xl border border-dashed border-gray-200 bg-white px-6 py-12 text-center">
+                    <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-gray-50 text-gray-400">
+                      <FiUsers className="size-5" />
+                    </div>
+
+                    <h3 className="mt-4 text-sm font-bold text-gray-900">
+                      No members found
+                    </h3>
+
+                    <p className="mt-1 text-xs text-gray-400">
+                      Try changing your search or status filter.
+                    </p>
+                  </div>
+                )}
+              </div>
             </section>
 
-            {/* ===================================================
+            {/* =================================================
                 SIDEBAR
-            ==================================================== */}
+            ================================================== */}
+
             <aside className="space-y-5">
-              {/* Expense breakdown */}
+              {/* CATEGORY BREAKDOWN */}
+
               <div className="rounded-[1.5rem] border border-gray-100 bg-white p-5 shadow-sm">
                 <div>
                   <p className="text-xs text-gray-400">Spending breakdown</p>
@@ -436,116 +776,171 @@ export default function ExpensesPage() {
 
                 <div className="space-y-5">
                   {categoryData.map((category) => (
-                    <CategoryRow key={category.name} category={category} />
+                    <CategoryRow
+                      key={category.name}
+                      category={category}
+                      total={categoryTotal}
+                    />
                   ))}
                 </div>
               </div>
 
-              {/* Payment status */}
+              {/* PAYMENT STATUS */}
+
               <div className="rounded-[1.5rem] border border-gray-100 bg-white p-5 shadow-sm">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-xs text-gray-400">Monthly payment</p>
+                    <p className="text-xs text-gray-400">Member status</p>
 
                     <h3 className="mt-1 text-lg font-bold text-gray-950">
-                      October Mess Bill
+                      Payment Summary
                     </h3>
                   </div>
 
                   <div className="flex size-10 items-center justify-center rounded-xl bg-green-50 text-green-800">
-                    <FiCreditCard className="size-4" />
+                    <FiDollarSign className="size-4" />
                   </div>
                 </div>
 
-                <div className="mt-5 rounded-xl bg-green-50 p-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-green-900">Amount</span>
+                <div className="mt-5 space-y-3">
+                  {/* COMPLETED */}
 
-                    <span className="text-lg font-bold text-green-900">
-                      ৳ 4,500
+                  <div className="flex items-center justify-between rounded-xl bg-green-50 p-3">
+                    <div className="flex items-center gap-2">
+                      <span className="size-2 rounded-full bg-green-500" />
+
+                      <span className="text-xs font-semibold text-green-800">
+                        Completed
+                      </span>
+                    </div>
+
+                    <span className="text-sm font-bold text-green-900">
+                      {completedMembers.length}
                     </span>
                   </div>
 
-                  <div className="mt-3 flex items-center gap-2">
-                    <span className="size-2 rounded-full bg-green-600" />
+                  {/* DUE */}
 
-                    <span className="text-xs font-semibold text-green-800">
-                      Paid on October 1
+                  <div className="flex items-center justify-between rounded-xl bg-orange-50 p-3">
+                    <div className="flex items-center gap-2">
+                      <span className="size-2 rounded-full bg-orange-500" />
+
+                      <span className="text-xs font-semibold text-orange-700">
+                        Due
+                      </span>
+                    </div>
+
+                    <span className="text-sm font-bold text-orange-800">
+                      {dueMembers.length}
+                    </span>
+                  </div>
+
+                  {/* SAVING */}
+
+                  <div className="flex items-center justify-between rounded-xl bg-blue-50 p-3">
+                    <div className="flex items-center gap-2">
+                      <span className="size-2 rounded-full bg-blue-500" />
+
+                      <span className="text-xs font-semibold text-blue-700">
+                        Saving
+                      </span>
+                    </div>
+
+                    <span className="text-sm font-bold text-blue-800">
+                      {savingMembers.length}
+                    </span>
+                  </div>
+
+                  {/* TOTAL */}
+
+                  <div className="flex items-center justify-between rounded-xl bg-gray-50 p-3">
+                    <span className="text-xs font-semibold text-gray-500">
+                      Total Members
+                    </span>
+
+                    <span className="text-sm font-bold text-gray-950">
+                      {filteredMembers.length}
                     </span>
                   </div>
                 </div>
-
-                <Button
-                  variant="flat"
-                  className="mt-4 h-10 w-full rounded-xl bg-gray-50 text-sm font-semibold text-gray-600"
-                >
-                  View Payment
-                </Button>
               </div>
 
-              {/* Shared expenses */}
+              {/* SAVINGS */}
+
               <div className="rounded-[1.5rem] border border-green-100 bg-green-50/60 p-5">
                 <div className="flex items-start gap-3">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white text-green-800 shadow-sm">
-                    <FiUsers className="size-4" />
+                    <FiTrendingUp className="size-4" />
                   </div>
 
                   <div>
                     <h3 className="text-sm font-bold text-gray-950">
-                      Shared expenses
+                      Member savings
                     </h3>
 
                     <p className="mt-1 text-xs leading-5 text-gray-500">
-                      Track grocery, utility and household costs shared between
-                      your mess members.
+                      {savingMembers.length} members are currently in the saving
+                      category with total savings of{" "}
+                      <span className="font-bold text-green-800">
+                        {formatAmount(totalSavings)}
+                      </span>
+                      .
                     </p>
                   </div>
                 </div>
-
-                <Button className="mt-4 h-10 w-full rounded-xl bg-green-800 text-sm font-bold text-white">
-                  View Shared Expenses
-                </Button>
               </div>
             </aside>
           </div>
 
-          {/* =====================================================
-              MONTHLY INSIGHT
-          ====================================================== */}
+          {/* =================================================
+              BOTTOM INSIGHT
+          ================================================== */}
+
           <section className="mt-10">
             <div className="rounded-[1.75rem] border border-green-100 bg-green-50/60 p-6 sm:p-7">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="flex items-start gap-4">
                   <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-green-800 shadow-sm">
-                    <FiTrendingUp className="size-5" />
+                    <FiCheckCircle className="size-5" />
                   </div>
 
                   <div>
                     <h3 className="text-lg font-bold text-gray-950">
-                      Your October spending
+                      {periodLabel[period]} payment overview
                     </h3>
 
                     <p className="mt-1 max-w-xl text-sm leading-6 text-gray-500">
-                      You've used 84% of your monthly budget so far. Your
-                      remaining budget is ৳ 1,150.
+                      {completedMembers.length} members have completed their
+                      payments, while {dueMembers.length} members still have
+                      outstanding dues.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="text-right">
-                    <p className="text-xs text-gray-400">Remaining</p>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="rounded-xl bg-white px-4 py-3 text-center shadow-sm">
+                    <p className="text-xs text-gray-400">Paid</p>
 
-                    <p className="text-xl font-bold text-green-800">৳ 1,150</p>
+                    <p className="mt-1 text-lg font-bold text-green-800">
+                      {completedMembers.length}
+                    </p>
                   </div>
 
-                  <Button
-                    variant="flat"
-                    className="h-10 rounded-xl bg-white px-4 text-sm font-semibold text-gray-700 shadow-sm"
-                  >
-                    <FiEdit3 className="size-4" />
-                    Budget
-                  </Button>
+                  <div className="rounded-xl bg-white px-4 py-3 text-center shadow-sm">
+                    <p className="text-xs text-gray-400">Due</p>
+
+                    <p className="mt-1 text-lg font-bold text-orange-600">
+                      {dueMembers.length}
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl bg-white px-4 py-3 text-center shadow-sm">
+                    <p className="text-xs text-gray-400">Saving</p>
+
+                    <p className="mt-1 text-lg font-bold text-blue-700">
+                      {savingMembers.length}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
